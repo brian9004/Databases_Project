@@ -23,7 +23,7 @@ function addBooks($bookName, $author, $totalQuantity, $numCheckedOut, $coverImag
         $statement->bindValue(':rating', $rating);
         $statement->bindValue(':category', $category);
         $statement->bindValue(':issued', $issued);
-        // exe
+        // 
         $statement->execute();
         $statement->closeCursor();
 

@@ -36,7 +36,7 @@
 // $dbname = 'bhl9bcu_a';    
 // $dsn = "mysql:host=$host;dbname=$dbname";  
 ////////////////////////////////////////////
-
+ 
 /** S24, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
 $username = 'bhl9bcu'; 
 $password = 'Spring2024';

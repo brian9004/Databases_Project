@@ -11,13 +11,22 @@
   height: 40px; /* Your logo height */
 }
 
-.logo img{ /* this is just for logo */
-  height: 50px;
-  width: 60px; 
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 20px;
+.header .logo .button-with-image {
+  background-color: none; 
+  border: none; 
+  padding: 0px; 
+  border-radius: 70px; 
+  cursor: pointer; 
+  margin-right: 10px;
 }
+
+.header .logo .button-with-image img {
+  display: block; 
+  max-width: 60px; 
+  height: auto; 
+  border-radius: 70px;
+}
+
 
 .search-container { /* container housing middle section with search, box, and filter) */
   display: flex;
@@ -63,7 +72,7 @@ background-color: transparent;
   background-color: #003974;
 }
 
-.header .menu .signup button { /*signup button only */
+.header .menu .login button { /*signup button only */
   background-color: #3DA9FC; 
   color: white;
   border: none;
@@ -73,7 +82,7 @@ background-color: transparent;
   cursor: pointer;
 }
 
-.header .menu .signup button:hover { /* hover effect for signup button*/
+.header .menu .login button:hover { /* hover effect for signup button*/
   background-color: #2C81BA; 
 }
 

@@ -27,18 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 
 <div class="header">
   <div class="logo">
-    <img src="images/logo-db.jpg" alt="Library Logo">
+    <button class="button-with-image" onclick="window.location.href='request.php'"> <img src="images/logo-db.jpg" alt="Library Logo"></button>
   </div>
   <span>CATALOG</span>
   <div class="search-container">
     <button style=filter:invert(100%) id="filter"><img src="images/magnifying_glass.png" alt="Search">Search</button>
   </div>
   <div class="menu">
-    <button onclick="window.location.href='home.php'">Home</button>
-    <button onclick="window.location.href='books.php'">Books</button>
-    <button onclick="window.location.href='login.php'">Login</button>
-    <div class="signup">
-      <button onclick="window.location.href='signup.php'">Sign Up</button>
+    <button onclick="window.location.href='request.php'">Home</button>
+    <button onclick="window.location.href='signup.php'">Sign Up</button>
+    <div class="login">
+      <button onclick="window.location.href='login.php'">Login</button>
     </div>
   </div>
 </div>

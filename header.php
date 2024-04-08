@@ -36,10 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   </div>
   <div class="menu">
     <button onclick="window.location.href='request.php'">Home</button>
-    <button onclick="window.location.href='signup.php'">Sign Up</button>
-    <div class="login">
-      <button onclick="window.location.href='login.php'">Login</button>
-    </div>
+    <?php if(isset($_SESSION["user_logged_in"]) && $_SESSION["user_logged_in"]): ?>
+      <button onclick="windon.location.href='logout.php'">Logout</button>
+    <?php else: ?>
+      <button onclick="window.location.href='signup.php'">Sign Up</button>
+      <div class="login">
+        <button onclick="window.location.href='login.php'">Login</button>
+      </div>
+    <?php endif; ?>
   </div>
 </div>
 

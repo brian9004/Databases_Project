@@ -1,8 +1,6 @@
 <?php
 require("connect-db.php");
 require("header.php");
-// Fetch all books
-$books = getAllBooks();
 ?>
 
 <!DOCTYPE html>

@@ -26,6 +26,8 @@ require 'header.php';
     <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_email']); ?>!</h1>
 
     <p>This is your dashboard. You can manage your profile, check your activities, or start using the services.</p>
+    
+    <h2>If you have reached this page you have successfully logged in or signed up </h2>
 
 
   </div>

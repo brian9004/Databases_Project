@@ -4,13 +4,21 @@ require("request-db.php");
 ?>
 
 <?php // form handling
+
+function clean($data) {  // Trims, unquotes strings, and converts predefined characters to HTML entities
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
 $books = getAllBooks(); // Fetch all books
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 {
     if (!empty($_POST['searchBtn']))
     {
-      $books = getBookByFields($_POST['bookName'], $_POST['author'], $_POST['totalQuantity'], $_POST['rating'], $_POST['category'], $_POST['issued']);
+      $books = getBookByFields(clean($_POST['bookName']), clean($_POST['author']), clean($_POST['totalQuantity']), clean($_POST['rating']), clean($_POST['category']));
     }
 }
 ?>
@@ -48,13 +56,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   <div class="popup-content">
     <span class="close-btn">&times;</span>
     <h2>Search Books</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateInput()" id="searchForm">
-      <input type="text" id="bookName" name="bookName" placeholder="Book Name" value=""><br>
-      <input type="text" id="author" name="author" placeholder="Author" value=""><br>
-      <input type="number" id="totalQuantity" name="totalQuantity" placeholder="Total Quantity" value=""><br>
-      <input type="text" id="rating" name="rating" placeholder="Rating" value=""><br>
-      <input type="text" id="category" name="category" placeholder="Category" value=""><br>
-      <input type="submit" value="Submit" id="searchBtn" name="searchBtn" />
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return clean()" id="searchForm">
+      <table style="width:80%">
+        <tr>
+          <td width="50%">
+            <div class='mb-3'>
+              <input type="text" id="bookName" name="bookName" placeholder="Book Name" value=""><br>
+            </div>
+          </td>
+          <td width="50%">
+            <div class='mb-3'>
+            <input type="text" id="author" name="author" placeholder="Author" value=""><br>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width="50%">
+            <div class='mb-3'>
+              <input type="number" id="totalQuantity" name="totalQuantity" placeholder="Total Quantity" value=""><br>
+            </div>
+          </td>
+          <td width="50%">
+            <div class='mb-3'>
+              <input type="text" id="rating" name="rating" placeholder="Rating" value=""><br>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width="50%">
+            <div class='mb-3'>
+              <input type="text" id="category" name="category" placeholder="Category" value=""><br>
+            </div>
+          </td>
+          <td width="50%">
+            <div class='mb-3'>
+            <input type="submit" value="Submit" id="searchBtn" name="searchBtn" />
+            </div>
+          </td>
+        </tr>
+      </table>
     </form>
   </div>
 </div>

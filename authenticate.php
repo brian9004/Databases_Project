@@ -14,7 +14,7 @@ $user = $statement->fetch(PDO::FETCH_ASSOC);
 $statement->closeCursor();
 
 
-if ($email && $password == $user['userPassword']) {
+if ($user && password_verify($password, $user['userPassword']))  {
     
     $_SESSION['user_logged_in'] = true;
     $_SESSION['user_id'] = $user['userId'];

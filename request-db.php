@@ -53,10 +53,61 @@ function getBookById($id)
     $statement = $db->prepare($query);
     $statement->bindValue(':bookId', $id);
     $statement->execute();
-    $result = $statement->fetch();
+    $result = $statement->fetchAll();
     $statement->closeCursor();
 
     return $result;
+}
+
+function getBookByFields($bookName, $author, $totalQuantity, $rating, $category)  
+{
+    global $db;
+    $query = "select * from books where 1=1"; // Basic query with always-true condition for easier appending
+
+    // Directly append conditions and parameters for non-empty fields
+    if (!empty($bookName)) {
+        $query .= " and bookName like :bookName";
+    }
+    if (!empty($author)) {
+        $query .= " and author like :author";
+    }
+    if (!empty($totalQuantity)) {
+        $query .= " and totalQuantity = :totalQuantity";
+    }
+    if (!empty($rating)) {
+        $query .= " and rating = :rating";
+    }
+    if (!empty($category)) {
+        $query .= " and category like :category";
+    }
+
+    $statement = $db->prepare($query);
+
+    // Conditionally bind parameters
+    if (!empty($bookName)) {
+        $statement->bindValue(':bookName', "%$bookName%");
+    }
+    if (!empty($author)) {
+        $statement->bindValue(':author', "%$author%");
+    }
+    if (!empty($totalQuantity)) {
+        $statement->bindValue(':totalQuantity', $totalQuantity, PDO::PARAM_INT);
+    }
+    if (!empty($rating)) {
+        $statement->bindValue(':rating', $rating);
+    }
+    if (!empty($category)) {
+        $statement->bindValue(':category', "%$category%");
+    }
+
+    try {
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        return $results;
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
 }
 
 function updateBook($bookName, $author, $totalQuantity, $numCheckedOut, $coverImagePath, $rating, $category, $issued)

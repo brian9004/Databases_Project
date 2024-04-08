@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 {
     if (!empty($_POST['searchBtn']))
     {
-        $books = getBookById(11);
+      $books = getBookByFields($_POST['bookName'], $_POST['author'], $_POST['totalQuantity'], $_POST['rating'], $_POST['category'], $_POST['issued']);
     }
 }
 ?>
@@ -89,20 +89,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
     }
   }
 
-  // Optional: Function to handle form submission
-  document.getElementById("searchForm").onsubmit = function(event) {
-    event.preventDefault(); // Prevent page reload on form submit
-    var formData = {
-      bookName: document.getElementById("bookName").value,
-      author: document.getElementById("author").value,
-      totalQuantity: document.getElementById("totalQuantity").value,
-      rating: document.getElementById("rating").value,
-      category: document.getElementById("category").value,
-      issued: document.getElementById("issued").checked,
-    };
-    // You can now use `formData` to filter your book data
-    console.log(formData);
-  };
+  // // Optional: Function to handle form submission
+  // document.getElementById("searchForm").onsubmit = function(event) {
+  //   event.preventDefault(); // Prevent page reload on form submit
+  //   var formData = {
+  //     bookName: document.getElementById("bookName").value,
+  //     author: document.getElementById("author").value,
+  //     totalQuantity: document.getElementById("totalQuantity").value,
+  //     rating: document.getElementById("rating").value,
+  //     category: document.getElementById("category").value,
+  //     issued: document.getElementById("issued").checked,
+  //   };
+  //   // You can now use `formData` to filter your book data
+  //   console.log(formData);
+  // };
 </script>
 
 </body>

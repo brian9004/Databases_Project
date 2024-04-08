@@ -31,9 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   </div>
   <span>CATALOG</span>
   <div class="search-container">
-    <input type="text" placeholder="Search...">
-    <button style=filter:invert(100%) type="submit"><img src="images/magnifying_glass.png" alt="Search"></button>
-    <button id="filter"><img src="images/filter.png" alt="Search"></button>
+    <button style=filter:invert(100%) id="filter"><img src="images/magnifying_glass.png" alt="Search">Search</button>
   </div>
   <div class="menu">
     <button onclick="window.location.href='home.php'">Home</button>

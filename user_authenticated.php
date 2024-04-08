@@ -15,7 +15,7 @@ require("header.php");
 
 <body>
 
-<h2>If you have reached this page you have successfully logged in </h2>
+<h2>If you have reached this page you have successfully logged in or signed up </h2>
       
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

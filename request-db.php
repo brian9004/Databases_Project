@@ -63,13 +63,22 @@ function getBookByFields($bookName, $author, $totalQuantity, $rating, $category)
 {
     global $db;
     $query = "select * from books where 1=1"; // Basic query with always-true condition for easier appending
+    $author_name1 = "";
+    $author_name2 = "";
 
     // Directly append conditions and parameters for non-empty fields
     if (!empty($bookName)) {
         $query .= " and bookName like :bookName";
     }
     if (!empty($author)) {
-        $query .= " and author like :author";
+        if ($author == trim($author) && strpos($author, ' ') !== false) {
+            $author_arr = explode(" ", $author);
+            $author_name1 = $author_arr[0];
+            $author_name2 = $author_arr[1];
+            $query .= " and author like :authorname1 and author like :authorname2";
+        } else {
+            $query .= " and author like :author";
+        }
     }
     if (!empty($totalQuantity)) {
         $query .= " and totalQuantity = :totalQuantity";
@@ -87,8 +96,17 @@ function getBookByFields($bookName, $author, $totalQuantity, $rating, $category)
     if (!empty($bookName)) {
         $statement->bindValue(':bookName', "%$bookName%");
     }
-    if (!empty($author)) {
-        $statement->bindValue(':author', "%$author%");
+    if ($author == trim($author) && strpos($author, ' ') !== false) {
+        if (!empty($author_name1)) {
+            $statement->bindValue(':authorname1', "%$author_name1%");
+        }
+        if (!empty($author_name2)) {
+            $statement->bindValue(':authorname2', "%$author_name2%");
+        }
+    } else {
+        if (!empty($author)) {
+            $statement->bindValue(':author', "%$author%");
+        }
     }
     if (!empty($totalQuantity)) {
         $statement->bindValue(':totalQuantity', $totalQuantity, PDO::PARAM_INT);

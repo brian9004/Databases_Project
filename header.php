@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Library Catalog</title>
-  <link rel="stylesheet" href="db-project.css">
+  <link rel="stylesheet" href="styles/db-project.css">
 </head>
 <body>
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   </div>
   <span>CATALOG</span>
   <div class="search-container">
-    <button style=filter:invert(100%) id="filter"><img src="images/magnifying_glass.png" alt="Search">Search</button>
+    <button id="filter"><img src="images/magnifying_glass.png" alt="Search">Search</button>
   </div>
   <div class="menu">
     <button onclick="window.location.href='request.php'">Home</button>
@@ -53,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       <input type="number" id="totalQuantity" name="totalQuantity" placeholder="Total Quantity" value=""><br>
       <input type="text" id="rating" name="rating" placeholder="Rating" value=""><br>
       <input type="text" id="category" name="category" placeholder="Category" value=""><br>
-      <input type="checkbox" id="issued" name="issued"> <label for="issued">Issued</label><br>
       <input type="submit" value="Submit" id="searchBtn" name="searchBtn" />
     </form>
   </div>

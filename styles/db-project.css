@@ -27,21 +27,17 @@
   border-radius: 70px;
 }
 
-
 .search-container { /* container housing middle section with search, box, and filter) */
   display: flex;
+  background-color: white;
   flex-grow: 1;
   justify-content: center;
   margin: 0 20px;
-
+  margin-left: 100px;
+  margin-right: 100px;
+  border-radius: 70px; 
 }
-.search-container input[type="text"] { /* just for the search box itself */
-  padding: 5px;
-  border-radius: 20px;
-  margin-right: 5px;
-  min-width: 300px;
 
-}
 .search-container button { /* for the magnifying and filter button containers */
   cursor: pointer;
   background: transparent;
@@ -55,7 +51,6 @@ background-color: transparent;
 
 .header .menu { /* continaer that houses right side buttons */
   display: flex;
-  
 }
 
 .header .menu button { /*menu buttons */

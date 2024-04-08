@@ -18,7 +18,7 @@ if ($email && $password == $user['userPassword']) {
     
     $_SESSION['user_logged_in'] = true;
     $_SESSION['user_id'] = $user['userId'];
-    header("Location: request.php"); //change this to logged in user view
+    header("Location: user_authenticated.php"); //change this to logged in user view
     exit;
 } else {
 

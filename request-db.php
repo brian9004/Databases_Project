@@ -22,7 +22,7 @@ function addBooks($bookName, $author, $totalQuantity, $numCheckedOut, $coverImag
     } catch (PDOException $e) {
         $e->getMessage();
     } catch (Exception $e) {
-        $e->getMessage();   // consider a generic message
+        $e->getMessage();   
     }
 }
 

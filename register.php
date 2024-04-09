@@ -21,12 +21,10 @@ $statement->bindValue(':lastName', $lastName);
 try {
     $statement->execute();
     $statement->closeCursor();
-    // echo "User registered successfully.<br>";
   
     header("Location: login.php");
 } catch (PDOException $e) {
-    // echo "Error: " . $e->getMessage() . "<br>";
-    
+
     header("Location: signup.php?error=signupfailed");
     exit;
 }

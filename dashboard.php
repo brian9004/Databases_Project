@@ -8,9 +8,6 @@ if (!isset($_SESSION["user_logged_in"]) || $_SESSION["user_logged_in"] !== true)
     exit;
 }
 
-// Fetch user details if needed from the database
-// $userDetails = getUserDetails($_SESSION['user_id']); 
-
 require 'header.php'; 
 ?>
 

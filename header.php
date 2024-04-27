@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 <div id="searchPopup" class="search-popup">
   <!-- Popup content -->
   <div class="popup-content">
-    <span class="close-btn">&times;</span>
+    <span class="search-close-btn">&times;</span>
     <h2>Search Books</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return clean()" id="searchForm">
       <table style="width:80%">
@@ -105,31 +105,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 
 <script>
   // Get the modal
-  var popup = document.getElementById("searchPopup");
-
+  var searchPopup = document.getElementById("searchPopup");
   // Get the button that opens the modal
-  var btn = document.getElementById("filter");
-
+  var searchBtn = document.getElementById("filter");
   // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close-btn")[0];
+  var searchSpan = document.getElementsByClassName("search-close-btn")[0];
 
   // When the user clicks the button, open the modal 
-  btn.onclick = function() {
-    popup.style.display = "block";
+  searchBtn.onclick = function() {
+    searchPopup.style.display = "block";
+  }
+  // When the user clicks on <span> (x), close the modal
+  searchSpan.onclick = function() {
+    searchPopup.style.display = "none";
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == searchPopup) {
+      searchPopup.style.display = "none";
+    }
+  }
+</script>
+
+<!-- <div id="bookPopup" class="book-popup">
+  <div class="popup-content">
+    <span class="book-close-btn">&times;</span>
+    <h2>Book Information</h2>
+    <table style="width:80%">
+    </table>
+  </div>
+</div> -->
+
+<!-- <script>
+  // Get the modal
+  var bookPopup = document.getElementById("bookPopup");
+  // Get the button that opens the modal
+  var bookBtn = document.getElementById("11");
+  // Get the <span> element that closes the modal
+  var bookSpan = document.getElementsByClassName("book-close-btn")[0];
+
+  // When the user clicks the button, open the modal 
+  bookBtn.onclick = function() {
+    bookPopup.style.display = "block";
   }
 
   // When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-    popup.style.display = "none";
+  bookSpan.onclick = function() {
+    bookPopup.style.display = "none";
   }
 
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
-    if (event.target == popup) {
-      popup.style.display = "none";
+    if (event.target == bookPopup) {
+      bookPopup.style.display = "none";
     }
   }
-</script>
+</script> -->
 
 </body>
 </html>    

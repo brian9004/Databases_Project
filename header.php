@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   <div class="menu">
     <button onclick="window.location.href='request.php'">Home</button>
     <?php if(isset($_SESSION["user_logged_in"]) && $_SESSION["user_logged_in"]): ?>
-      <button onclick="windon.location.href='logout.php'">Logout</button>
+      <button onclick="window.location.href='logout.php'">Logout</button>
     <?php else: ?>
       <button onclick="window.location.href='signup.php'">Sign Up</button>
       <div class="login">

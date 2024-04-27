@@ -51,7 +51,7 @@ if (!isset($_SESSION["user_logged_in"]) || $_SESSION["user_logged_in"] !== true)
     header("location: login.php");
     exit;
 }
-if($_SESSION["admin"] !== true){ //checks if user is an admin
+if($_SESSION["admin"] !== true){ //checks if user is an admin, if not then sends them to home page.
     header("location: request.php");
     exit;
 }

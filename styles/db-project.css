@@ -1,8 +1,8 @@
 /** ----------------------------------------- Header Styling ----------------------------------------- */
 
 .header {
-  background-color: #094067;
-  color: white; /* for the text*/
+  background-color: #8fe00c;
+  color: green; /* for the text*/
   padding: 10px;
   display: flex;
   align-items: center;

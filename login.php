@@ -6,17 +6,17 @@ $books = getAllBooks();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="body-login">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/db-project.css">
-</head>
 
 <body>
 
+<div class = error-message-login>
 <?php
 // Display an error message if wrong creds
 if (isset($_GET['error'])) {
@@ -24,22 +24,25 @@ if (isset($_GET['error'])) {
     echo "<p style='color:red;'>$errorMessage</p>";
 }
 ?>
+</div>
 
-<form action="authenticate.php" method="post">
+
+<div class="form-container-login">
+  <form action="authenticate.php" method="post" class="form-login">
     <h2>Login</h2>
-    <div class="login-container">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
+    <div class="field-container-login">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required>
     </div>
-    <div class="login-container">
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
+    <div class="field-container-login">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required>
     </div>
-    <div class="login-button">
-        <input type="submit" value="Login">
+    <div class="button-submit-login">
+      <input type="submit" value="Login">
     </div>
-</form>
-
+  </form>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

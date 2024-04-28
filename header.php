@@ -45,13 +45,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   <div class="menu">
     <button onclick="window.location.href='request.php'">Home</button>
     <?php if(isset($_SESSION["user_logged_in"]) && $_SESSION["user_logged_in"]): ?>
-      <button onclick="window.location.href='logout.php'">Logout</button>
+    <?php
+    if(isset($_SESSION["admin"]) && $_SESSION["admin"]): ?>
+        <button onclick="window.location.href='admin-dashboard.php'">Dashboard</button>
     <?php else: ?>
-      <button onclick="window.location.href='signup.php'">Sign Up</button>
-      <div class="login">
-        <button onclick="window.location.href='login.php'">Login</button>
-      </div>
+        <button onclick="window.location.href='dashboard.php'">Dashboard</button>
     <?php endif; ?>
+    <button onclick="window.location.href='logout.php'">Logout</button>
+<?php else: ?>
+    <button onclick="window.location.href='signup.php'">Sign Up</button>
+    <div class="login">
+        <button onclick="window.location.href='login.php'">Login</button>
+    </div>
+<?php endif; ?>
+
   </div>
 </div>
 

@@ -20,7 +20,10 @@ function showBookDetails($book) {
     $html .= "</div>";
     $html .= "</div>"; // end modal-body
     $html .= "<div class='modal-footer'>";
-    $html .= "<button type='button' class='btn btn-danger' data-bs-dismiss='modal'>Delete Book</button>";
+    $html .= "<form method='POST' action=''>";
+    $html .= "<input type='hidden' name='deleteBookId' value='{$book['bookId']}'>";    
+    $html .= "<button type='submit' class='btn btn-danger'>Delete Book</button>";
+    $html .= "</form>";
     $html .= "<button type='button' onclick='closeModal(\"modal{$book['bookId']}\")' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>";
     $html .= "</div>"; // end modal-footer
     $html .= "</div>"; // end modal-content
@@ -28,20 +31,17 @@ function showBookDetails($book) {
     $html .= "</div>"; // end modal
     return $html;
 }
+
 ?>
-<!--     
-    $html = "<div class='modal' id='modal{$book['bookId']}' style='display:none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 100;'>";
-    $html .= "<div style='background-color: white; margin: 10% auto; padding: 20px; width: 50%;'>";
-    $html .= "<h2>" . htmlspecialchars($book['bookName']) . "</h2>";
-    $html .= "<p>Author: " . htmlspecialchars($book['author']) . "</p>";
-    $html .= "<p>Category: " . htmlspecialchars($book['category']) . "</p>";
-    $html .= "<button onclick='closeModal(\"modal{$book['bookId']}\")'>Close</button>";
-    $html .= "</div></div>";
-    return $html;
- -->
 
 <body>
 <div class="container mt-4">
+    <?php if ($bookDeleted): ?>
+    <?php $bookDeleted = false; ?>
+    <script>
+        alert('The book has been successfully deleted.');
+    </script>
+    <?php endif; ?>
     <div class="row">
         <div class="col">
             <h2>Children's Library Catalog</h2>
@@ -64,10 +64,6 @@ function showBookDetails($book) {
 <script>
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
-    }
-
-    function deleteButton(modalId) {
-        
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -13,6 +13,7 @@ function clean($data) {  // Trims, unquotes strings, and converts predefined cha
 }
 
 $books = getAllBooks(); // Fetch all books
+$bookDeleted = false;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 {
@@ -20,7 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
     {
       $books = getBookByFields(clean($_POST['bookName']), clean($_POST['author']), clean($_POST['totalQuantity']), clean($_POST['rating']), clean($_POST['category']));
     }
+
+    if (!empty($_POST['deleteBookId']))
+    {
+      $bookId = clean($_POST['deleteBookId']);
+      deleteBook(intval($bookId));
+      $bookDeleted = true;
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
 }
+
 ?>
 
 <!DOCTYPE html>

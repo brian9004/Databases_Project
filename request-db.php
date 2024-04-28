@@ -149,6 +149,55 @@ function deleteBook($bookId)
     $statement->closeCursor();
 }
 
+function validateAmountCheckedOut($bookId) // check to see if user can checkout book
+{
+    global $db;
+    $query = "select totalQuantity, numCheckedOut from books where bookId=:bookId";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+
+    try {
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        return $results;
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+function checkoutBook($bookId, $userId, $newCheckoutNum)
+{
+    global $db;
+    
+    // open transaction
+    $db->beginTransaction();
+    
+    try {
+        // Update the numCheckedOut value
+        $updateQuery = "update books set numCheckedOut=:numCheckout where bookId=:bookId";
+        $updateStatement = $db->prepare($updateQuery);
+        $updateStatement->bindValue(':numCheckout', $newCheckoutNum);
+        $updateStatement->bindValue(':bookId', $bookId);
+        $updateStatement->execute();
+        
+        // create checkout entry
+        $insertQuery = "insert into checkouts (userId, bookId, checkoutDate) values (:userId, :bookId, CURDATE())";
+        $insertStatement = $db->prepare($insertQuery);
+        $insertStatement->bindValue(':bookId', $bookId);
+        $insertStatement->bindValue(':userId', $userId);
+        $insertStatement->execute();
+        
+        // commit transaction
+        $db->commit();
+        $updateStatement->closeCursor();
+        $insertStatement->closeCursor();
+        return 1;
+    } catch (PDOException $e) {
+        $db->rollBack();
+        return 0;
+    }
+}
 ?>
 
 <script>

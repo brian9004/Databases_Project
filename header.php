@@ -29,6 +29,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       $bookDeleted = true;
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
+
+    if (!empty($_POST['checkoutBookId']))
+    {
+      $bookId = clean($_POST['checkoutBookId']);
+      $results = validateAmountCheckedOut(intval($bookId));
+      $totalQuantity = $results[0][0];
+      $numCheckedOut = $results[0][1];
+
+      if ($numCheckedOut < $totalQuantity)
+      {
+        $userId = clean($_SESSION['user_id']);
+        $incrementCheckout = $numCheckedOut + 1;
+
+        $cResult = checkoutBook($bookId, $userId, $incrementCheckout);
+        
+        if ($cResult == 1) {
+          $checkoutMessage = 3;
+        }
+        else {
+          $checkoutMessage = 2;
+        }
+      }
+      else
+      {
+        // all the books are checked out
+        $checkoutMessage = 1;
+      }
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
 }
 
 ?>

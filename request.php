@@ -21,6 +21,10 @@ function showBookDetails($book) {
     $html .= "</div>"; // end modal-body
     $html .= "<div class='modal-footer'>";
     $html .= "<form method='POST' action=''>";
+    $html .= "<input type='hidden' name='checkoutBookId' value='{$book['bookId']}'>";    
+    $html .= "<button type='submit' class='btn btn-success'>Checkout Book</button>";
+    $html .= "</form>";
+    $html .= "<form method='POST' action=''>";
     $html .= "<input type='hidden' name='deleteBookId' value='{$book['bookId']}'>";    
     $html .= "<button type='submit' class='btn btn-danger'>Delete Book</button>";
     $html .= "</form>";
@@ -37,11 +41,28 @@ function showBookDetails($book) {
 <body>
 <div class="container mt-4">
     <?php if ($bookDeleted): ?>
-    <?php $bookDeleted = false; ?>
-    <script>
-        alert('The book has been successfully deleted.');
-    </script>
+        <?php $bookDeleted = false; ?>
+        <script>
+            alert('The book has been successfully deleted.');
+        </script>
     <?php endif; ?>
+
+    <?php if ($checkoutMessage): ?>
+        <?php if ($checkoutMessage == 1): ?>
+            <script>
+                alert('There are no copies of this book left to checkout. Please select another option.');
+            </script>
+        <?php elseif ($checkoutMessage == 2): ?>
+            <script>
+                alert('An error occurred, have you already checked this book out?');
+            </script>
+        <?php elseif ($checkoutMessage == 3): ?>
+            <script>
+                alert('The book has been checked out successfully. Thank you.');
+            </script>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <div class="row">
         <div class="col">
             <h2>Children's Library Catalog</h2>

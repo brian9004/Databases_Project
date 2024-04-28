@@ -3,13 +3,10 @@ session_start();
 require 'connect-db.php';
 
 // Check if the user is logged in, if not then redirect to login page
-// if (!isset($_SESSION["user_logged_in"]) || $_SESSION["user_logged_in"] !== true) {
-//     header("location: login.php");
-//     exit;
-// }
-
-// Fetch user details if needed from the database
-// $userDetails = getUserDetails($_SESSION['user_id']); 
+if (!isset($_SESSION["user_logged_in"]) || $_SESSION["user_logged_in"] !== true) {
+    header("location: login.php");
+    exit;
+}
 
 require 'header.php'; 
 ?>

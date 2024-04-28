@@ -2,19 +2,11 @@
 function addBooks($bookName, $author, $totalQuantity, $numCheckedOut, $coverImagePath, $rating, $category, $issued)
 {
     global $db;
-    // $reqDate = date('Y-m-d');   // ensure proper data type before inserting it into a db
-    // $query = "INSERT INTO requests (reqDate, roomNumber, reqBy, repairDesc, reqPriority) VALUES ('2024-03-18', 'CCC', 'Someone', 'fix light', 'medium')";
-    // $query = "INSERT INTO requests (reqDate, roomNumber, reqBy, repairDesc, reqPriority) VALUES ('" . $reqDate . "', '" . $roomNumber . "', '" . $reqBy . "', '" . $repairDesc . "', '" . $reqPriority . "')";  
     $query = "INSERT INTO books (bookName, author, totalQuantity, numCheckedOut, coverImagePath, rating, category, issued) VALUES (:bookName, :author, :totalQuantity, :numCheckedOut, :coverImagePath, :rating, :category, :issued)";
 
     try {
-        // #statement = $db->query($query); // compile & exe
-
-        // prepared statement
-        // pre-compile
         $statement = $db->prepare($query);
 
-        // fill in the value
         $statement->bindValue(':bookName', $bookName);
         $statement->bindValue(':author', $author);
         $statement->bindValue(':totalQuantity', $totalQuantity);
@@ -23,14 +15,14 @@ function addBooks($bookName, $author, $totalQuantity, $numCheckedOut, $coverImag
         $statement->bindValue(':rating', $rating);
         $statement->bindValue(':category', $category);
         $statement->bindValue(':issued', $issued);
-        // exe
+
         $statement->execute();
         $statement->closeCursor();
 
     } catch (PDOException $e) {
         $e->getMessage();
     } catch (Exception $e) {
-        $e->getMessage();   // consider a generic message
+        $e->getMessage();   
     }
 }
 

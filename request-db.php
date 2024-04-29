@@ -51,11 +51,11 @@ function getCheckedOutBooks() {
 
 function getCheckedOutBooksByUser() {
     global $db;
-    $query = "SELECT u.firstName, u.lastName, u.userId, b.bookId, b.bookName, b.coverImagePath
+    $query = "SELECT u.firstName, u.lastName, u.userId, b.bookId, b.bookName, b.coverImagePath, b.author, b.category
               FROM users u
               JOIN checkouts co ON u.userId = co.userId
               JOIN books b ON co.bookId = b.bookId
-              ORDER BY u.userId, co.checkoutDate DESC";  // Adjust for the column name in your books table
+              ORDER BY u.userId, co.checkoutDate DESC";
     try {
         $stmt = $db->prepare($query);
         $stmt->execute();

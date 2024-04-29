@@ -54,7 +54,7 @@ function showBookDetails($book) {
             </script>
         <?php elseif ($checkoutMessage == 2): ?>
             <script>
-                alert('An error occurred, have you already checked this book out?');
+                alert('An error occurred, have you already checked this book out? Are you logged in?');
             </script>
         <?php elseif ($checkoutMessage == 3): ?>
             <script>

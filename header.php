@@ -5,7 +5,7 @@ require("request-db.php");
 
 <?php // form handling
 
-function clean($data) {  // Trims, unquotes strings, and converts predefined characters to HTML entities
+function clean($data) {  
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -71,6 +71,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       else {
         $rateMessage = 2;
       }
+      
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
+    if (!empty($_POST['favoriteBook']))
+    {
+      $userId = intval(clean($_SESSION["user_id"]));
+      $bookId = intval(clean($_POST['favoriteBook']));
+      createFavorite($bookId, $userId);
+      $favorited = true;
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
+    if (!empty($_POST['unfavoriteBook']))
+    {
+      $userId = intval(clean($_SESSION["user_id"]));
+      $bookId = intval(clean($_POST['unfavoriteBook']));
+      removeFavorite($bookId, $userId);
+      $unfavorited = true;
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
+    if (!empty($_POST['checkInBook']))
+    {
+      $userId = intval(clean($_POST['checkInBook']));
+      $bookId = intval(clean($_POST['bookId2']));
+
+      $results = validateAmountCheckedOut(intval($bookId));
+      $numCheckedOut = $results[0][1];
+      $decrementCheckout = $numCheckedOut - 1;
+
+      $result = checkInBook($bookId, $userId, $decrementCheckout);
+
+      if ($result == 1) {
+        $checkInMessage = 1;
+      }
+      else {
+        $checkInMessage = 2;
+      }
+
       
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
@@ -266,20 +306,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 <script>
   // Get the modal
   var searchPopup = document.getElementById("searchPopup");
-  // Get the button that opens the modal
   var searchBtn = document.getElementById("filter");
-  // Get the <span> element that closes the modal
   var searchSpan = document.getElementsByClassName("search-close-btn")[0];
 
-  // When the user clicks the button, open the modal 
+  // open the modal 
   searchBtn.onclick = function() {
     searchPopup.style.display = "block";
   }
-  // When the user clicks on <span> (x), close the modal
+  // close the modal
   searchSpan.onclick = function() {
     searchPopup.style.display = "none";
   }
-  // When the user clicks anywhere outside of the modal, close it
+  // when the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
     if (event.target == searchPopup) {
       searchPopup.style.display = "none";

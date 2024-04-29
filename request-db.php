@@ -59,11 +59,11 @@ function getCheckedOutBooksByUser() {
 
 function getAllUsers() {
     global $db; 
-    $query = "SELECT firstName, lastName, email FROM users"; // Adjust the column names if different
+    $query = "SELECT firstName, lastName, email FROM users"; 
     try {
         $stmt = $db->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(); // Fetches all users
+        return $stmt->fetchAll(); 
     } catch (PDOException $e) {
         die("Error occurred:" . $e->getMessage());
     }
@@ -249,7 +249,57 @@ function getRating($bookId)
     }
 }
 
-function createRating($bookId, $userId, $oneTimeRating) // check to see if user can checkout book
+function isFavorited($bookId, $userId)
+{
+    global $db;
+    $query = "select COUNT(*) from favorites where bookId=:bookId and userId=:userId";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+
+    try {
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        if ($results[0][0] == 0) { return false; }
+        return true;
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+function createFavorite($bookId, $userId)
+{
+    global $db;
+    $query = "insert into favorites (userId, bookId) values (:userId, :bookId)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+    try {
+        $statement->execute();
+        $statement->closeCursor();
+        
+    } catch (PDOException $e) {
+    }
+}
+
+function removeFavorite($bookId, $userId)
+{
+    global $db;
+    $query = "delete from favorites where bookId=:bookId and userId=:userId";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+
+    try {
+        $statement->execute();
+        $statement->closeCursor();
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+function createRating($bookId, $userId, $oneTimeRating)
 {
     global $db;
     $query = "insert into rates (userId, bookId, oneTimeRating) values (:userId, :bookId, :oneTimeRating)";
@@ -276,7 +326,7 @@ function checkoutBook($bookId, $userId, $newCheckoutNum)
     $db->beginTransaction();
     
     try {
-        // Update the numCheckedOut value
+        // inc the numCheckedOut value
         $updateQuery = "update books set numCheckedOut=:numCheckout where bookId=:bookId";
         $updateStatement = $db->prepare($updateQuery);
         $updateStatement->bindValue(':numCheckout', $newCheckoutNum);
@@ -285,6 +335,39 @@ function checkoutBook($bookId, $userId, $newCheckoutNum)
         
         // create checkout entry
         $insertQuery = "insert into checkouts (userId, bookId, checkoutDate) values (:userId, :bookId, CURDATE())";
+        $insertStatement = $db->prepare($insertQuery);
+        $insertStatement->bindValue(':bookId', $bookId);
+        $insertStatement->bindValue(':userId', $userId);
+        $insertStatement->execute();
+        
+        // commit transaction
+        $db->commit();
+        $updateStatement->closeCursor();
+        $insertStatement->closeCursor();
+        return 1;
+    } catch (PDOException $e) {
+        $db->rollBack();
+        return 0;
+    }
+}
+
+function checkInBook($bookId, $userId, $newCheckoutNum)
+{
+    global $db;
+    
+    // open transaction
+    $db->beginTransaction();
+    
+    try {
+        // update val
+        $updateQuery = "update books set numCheckedOut=:numCheckout where bookId=:bookId";
+        $updateStatement = $db->prepare($updateQuery);
+        $updateStatement->bindValue(':numCheckout', $newCheckoutNum);
+        $updateStatement->bindValue(':bookId', $bookId);
+        $updateStatement->execute();
+        
+        // create checkout entry
+        $insertQuery = "delete from checkouts where bookId=:bookId and userId=:userId";
         $insertStatement = $db->prepare($insertQuery);
         $insertStatement->bindValue(':bookId', $bookId);
         $insertStatement->bindValue(':userId', $userId);

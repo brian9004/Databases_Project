@@ -181,11 +181,22 @@ function updateBook($bookName, $author, $totalQuantity, $numCheckedOut, $coverIm
     $statement->closeCursor();
 }
 
-function deleteBook($bookId)
+function deleteBook($userId, $bookId)
 {
     global $db;
-    $query = "delete from books where bookId=:bookId";
+    $deleteQuery = "DELETE FROM books WHERE bookId=:bookId;";
+    $deleteStatement = $db->prepare($deleteQuery);
+    $deleteStatement->bindValue(':bookId', $bookId);
+    $deleteStatement->execute();
+    $deleteStatement->closeCursor();
+}
+
+function deleteUpdateLog($userId, $bookId)  
+{
+    global $db;
+    $query = "INSERT INTO deleteupdatelogs (userId, bookId, modifyDate) VALUES (:userId, :bookId, CURDATE());";
     $statement = $db->prepare($query);
+    $statement->bindValue(':userId', $userId);
     $statement->bindValue(':bookId', $bookId);
     $statement->execute();
     $statement->closeCursor();

@@ -240,3 +240,67 @@ background-color: transparent;
   color: red;
   text-align: center;
 }
+
+/** ----------------------------------------- Admin Dashboard page styling ----------------------------------------- */
+.admin-dashboard body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  line-height: 1.6;
+}
+.admin-dashboard .container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.admin-dashboard .container:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+.admin-dashboard h1, .admin-dashboard h2 {
+  margin-bottom: 20px;
+}
+.admin-dashboard h1 {
+  color: #0056b3;
+}
+.admin-dashboard h2 {
+  background-color: #e9f5db;
+  color: #276749;
+  padding: 15px;
+  border-left: 5px solid #276749;
+  border-radius: 4px;
+}
+.admin-dashboard p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.admin-dashboard .book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+.admin-dashboard .book-item {
+  text-align: center;
+  padding: 10px;
+}
+.admin-dashboard .book-cover {
+  width: 100%; 
+  height: auto;
+  border-radius: 8px; 
+}
+.admin-dashboard table {
+  width: 100%; 
+  border-collapse: collapse; 
+}
+.admin-dashboard th, .admin-dashboard td {
+  text-align: left;
+  padding: 8px; 
+  border-bottom: 1px solid #ddd;
+}

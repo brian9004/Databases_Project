@@ -146,45 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 
 }
 
-// function generateAddBookModal() {
-//   $modalHTML = '<div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-hidden="true">
-//   <div class="modal-dialog">
-//     <div class="modal-content">
-//       <div class="modal-header">
-//         <h4 class="modal-title">Add New Book</h4>
-//         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-//       </div>
-//       <div class="modal-body">
-//         <form method="POST" action="">
-//           <div class="mb-3">
-//             <input type="text" class="form-control" id="bookName" name="bookName" placeholder="Book Name">
-//           </div>
-//           <div class="mb-3">
-//             <input type="text" class="form-control" id="author" name="author" placeholder="Author">
-//           </div>
-//           <div class="mb-3">
-//             <input type="number" class="form-control" id="totalQuantity" name="totalQuantity" placeholder="Quantity">
-//           </div>
-//           <div class="mb-3">
-//             <input type="text" class="form-control" id="category" name="category" placeholder="Category">
-//           </div>
-//           <div class="mb-3">
-//             <input type="text" class="form-control" id="coverImagePath" name="coverImagePath" placeholder="Cover Image Path">
-//           </div>
-//           <div class="mb-3">
-//             <input type="submit" class="btn btn-primary" name="addBook">Submit</button>
-//           </div>
-//         </form>
-//       </div>
-//       <div class="modal-footer">
-//         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//       </div>
-//     </div>
-//   </div>
-// </div>';
-//   return $modalHTML;
-// }
-
 ?>
 
 <!DOCTYPE html>
@@ -258,48 +219,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 <div id="searchPopup" class="search-popup">
   <!-- Popup content -->
   <div class="popup-content">
-    <span class="search-close-btn">&times;</span>
     <h2>Search Books</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return clean()" id="searchForm">
-      <table style="width:80%">
-        <tr>
-          <td width="50%">
-            <div class='mb-3'>
-              <input type="text" id="bookName" name="bookName" placeholder="Book Name" value=""><br>
-            </div>
-          </td>
-          <td width="50%">
-            <div class='mb-3'>
-            <input type="text" id="author" name="author" placeholder="Author" value=""><br>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td width="50%">
-            <div class='mb-3'>
-              <input type="number" id="totalQuantity" name="totalQuantity" placeholder="Total Quantity" value=""><br>
-            </div>
-          </td>
-          <td width="50%">
-            <div class='mb-3'>
-              <input type="text" id="rating" name="rating" placeholder="Rating" value=""><br>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td width="50%">
-            <div class='mb-3'>
-              <input type="text" id="category" name="category" placeholder="Category" value=""><br>
-            </div>
-          </td>
-          <td width="50%">
-            <div class='mb-3'>
-            <input type="submit" value="Submit" id="searchBtn" name="searchBtn" />
-            </div>
-          </td>
-        </tr>
-      </table>
+      <div class="container">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="bookName" name="bookName" placeholder="Book Name" value="">
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="author" name="author" placeholder="Author" value="">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <input type="number" class="form-control" id="totalQuantity" name="totalQuantity" placeholder="Total Quantity" value="">
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="rating" name="rating" placeholder="Rating" value="">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="category" name="category" placeholder="Category" value="">
+          </div>
+          <div class="col-md-6">
+            <input type="submit" class="btn btn-primary" id="searchBtn" name="searchBtn">
+            <button type="button" class="btn btn-secondary" name="closeSearchPopup" id="closeSearchPopup">Close</button>
+          </div>
+        </div>
+      </div>
     </form>
+    
   </div>
 </div>
 
@@ -307,14 +257,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   // Get the modal
   var searchPopup = document.getElementById("searchPopup");
   var searchBtn = document.getElementById("filter");
-  var searchSpan = document.getElementsByClassName("search-close-btn")[0];
+  var closeSearchBtn = document.getElementById("closeSearchPopup");
 
   // open the modal 
   searchBtn.onclick = function() {
     searchPopup.style.display = "block";
   }
   // close the modal
-  searchSpan.onclick = function() {
+  closeSearchBtn.onclick = function() {
     searchPopup.style.display = "none";
   }
   // when the user clicks anywhere outside of the modal, close it

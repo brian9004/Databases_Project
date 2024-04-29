@@ -19,9 +19,24 @@ $statement->bindValue(':firstName', $firstName);
 $statement->bindValue(':lastName', $lastName);
 
 try {
+    $db->beginTransaction(); // Start transaction
+
     $statement->execute();
+    $userId = $db->lastInsertId(); // Retrieves the last inserted ID, which is the userId
+
+    // Insert userId, email, firstName, and lastName into the 'student' table
+    $queryStudent = "INSERT INTO student (userId, email, firstName, lastName) VALUES (:userId, :email, :firstName, :lastName)";
+    $statementStudent = $db->prepare($queryStudent);
+    $statementStudent->bindValue(':userId', $userId);
+    $statementStudent->bindValue(':email', $email);
+    $statementStudent->bindValue(':firstName', $firstName);
+    $statementStudent->bindValue(':lastName', $lastName);
+    $statementStudent->execute();
+
+    $db->commit(); // Commit the transaction
+
     $statement->closeCursor();
-  
+    $statementStudent->closeCursor();
     header("Location: login.php");
 } catch (PDOException $e) {
 

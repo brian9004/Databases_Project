@@ -311,6 +311,39 @@ function checkoutBook($bookId, $userId, $newCheckoutNum)
         return 0;
     }
 }
+
+function checkInBook($bookId, $userId, $newCheckoutNum)
+{
+    global $db;
+    
+    // open transaction
+    $db->beginTransaction();
+    
+    try {
+        // Update the numCheckedOut value
+        $updateQuery = "update books set numCheckedOut=:numCheckout where bookId=:bookId";
+        $updateStatement = $db->prepare($updateQuery);
+        $updateStatement->bindValue(':numCheckout', $newCheckoutNum);
+        $updateStatement->bindValue(':bookId', $bookId);
+        $updateStatement->execute();
+        
+        // create checkout entry
+        $insertQuery = "delete from checkouts where bookId=:bookId and userId=:userId";
+        $insertStatement = $db->prepare($insertQuery);
+        $insertStatement->bindValue(':bookId', $bookId);
+        $insertStatement->bindValue(':userId', $userId);
+        $insertStatement->execute();
+        
+        // commit transaction
+        $db->commit();
+        $updateStatement->closeCursor();
+        $insertStatement->closeCursor();
+        return 1;
+    } catch (PDOException $e) {
+        $db->rollBack();
+        return 0;
+    }
+}
 ?>
 
 <script>

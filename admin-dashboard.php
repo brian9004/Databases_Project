@@ -15,23 +15,19 @@ function showBookDetails($book) {
   $html .= "<img src='" . htmlspecialchars($book['coverImagePath']) . "' class='img-fluid mb-3'>";
   $html .= "</div>"; // end centering container
   $html .= "<div class='ms-5'>";
-  $html .= "<p><strong>Author:</strong> " . htmlspecialchars($book['author']) . "</p>";
-  $html .= "<p><strong>Category:</strong> " . htmlspecialchars($book['category']) . "</p>";
+  $html .= "<p><strong>Info about user who checked this book out:</strong></p>";
+  $html .= "<div class='ms-5'>";
+  $html .= "<p><strong>First Name:</strong> " . htmlspecialchars($book['firstName']) . "</p>";
+  $html .= "<p><strong>Last Name:</strong> " . htmlspecialchars($book['lastName']) . "</p>";
+  $html .= "</div>";
   $html .= "</div>";
   $html .= "</div>"; // end modal-body
   $html .= "<div class='modal-footer'>";
-  if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-      $html .= "<form method='POST' action=''>";
-      $html .= "<input type='hidden' name='checkoutBookId' value='{$book['bookId']}'>";    
-      $html .= "<button type='submit' class='btn btn-success'>Checkout Book</button>";
-      $html .= "</form>";
-  }
-  if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
-      $html .= "<form method='POST' action=''>";
-      $html .= "<input type='hidden' name='deleteBookId' value='{$book['bookId']}'>";    
-      $html .= "<button type='submit' class='btn btn-danger'>Delete Book</button>";
-      $html .= "</form>";
-  }
+  $html .= "<form method='POST' action=''>";
+  $html .= "<input type='hidden' name='bookId2' value='{$book['bookId']}'>";    
+  $html .= "<input type='hidden' name='checkInBook' value='{$book['userId']}'>";    
+  $html .= "<button type='submit' class='btn btn-success'>Check-In Book</button>";
+  $html .= "</form>";
   $html .= "<button type='button' onclick='closeModal(\"modal{$book['bookId']}\")' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>";
   $html .= "</div>"; // end modal-footer
   $html .= "</div>"; // end modal-content
@@ -63,6 +59,17 @@ require 'header.php';
 
 </head>
 <body class="admin-dashboard">
+  <?php if ($checkInMessage): ?>
+        <?php if ($checkInMessage == 2): ?>
+            <script>
+                alert('Your book was not checked in. Try again.');
+            </script>
+        <?php elseif ($rateMessage == 1): ?>
+            <script>
+                alert('You successfully checked in this book.');
+            </script>
+        <?php endif; ?>
+  <?php endif; ?>
   <div class="container">
     <h1>Welcome Admin<?php echo htmlspecialchars($_SESSION['user_email']); ?>!</h1>
     <p>This is your admin dashboard. Here you can manage user accounts, view site analytics, and configure settings.</p>

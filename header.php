@@ -64,6 +64,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
 
+    if (!empty($_POST['checkInBook']))
+    {
+      $userId = intval(clean($_POST['checkInBook']));
+      $bookId = intval(clean($_POST['bookId2']));
+
+      $results = validateAmountCheckedOut(intval($bookId));
+      $numCheckedOut = $results[0][1];
+      $decrementCheckout = $numCheckedOut - 1;
+
+      $result = checkInBook($bookId, $userId, $decrementCheckout);
+
+      if ($result == 1) {
+        $checkInMessage = 1;
+      }
+      else {
+        $checkInMessage = 2;
+      }
+
+      
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
     if (!empty($_POST['checkoutBookId']))
     {
       $bookId = clean($_POST['checkoutBookId']);

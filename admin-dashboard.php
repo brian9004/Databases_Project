@@ -78,7 +78,7 @@ require 'header.php';
             <div class="book-grid">
                 <?php foreach ($checkouts as $book): ?>
                     <div class="book-item">
-                        <img src="<?php echo htmlspecialchars($book['coverImagePath']); ?>" alt="<?php echo htmlspecialchars($book['title']); ?>" class="book-cover img-fluid">
+                        <img src="<?php echo htmlspecialchars($book['coverImagePath']); ?>" alt="<?php echo htmlspecialchars($book['bookName']); ?>" class="book-cover img-fluid">
                     </div>
                 <?php endforeach; ?>
             </div>

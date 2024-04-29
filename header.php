@@ -17,20 +17,24 @@ $books = getAllBooks(); // Fetch all books
 $users = getAllUsers();
 
 $checkouts = getCheckedOutBooksByUser();
-$userBooks = [];
-foreach ($checkouts as $item) {
-    $userId = $item['userId'];
-    if (!isset($userBooks[$userId])) {
-        $userBooks[$userId] = [
-            'name' => $item['firstName'] . ' ' . $item['lastName'],
-            'books' => []
-        ];
-    }
-    $userBooks[$userId]['books'][] = [
-        'bookName' => $item['bookName'],
-        'coverImagePath' => $item['coverImagePath']
-    ];
-}
+$userId = $_SESSION['user_id'];
+$userDetails = getUserDetails($userId);
+$userCheckedOutBooks = getCheckedOutBooksByUserId($userId);
+
+// $userBooks = [];
+// foreach ($checkouts as $item) {
+//     $userId = $item['userId'];
+//     if (!isset($userBooks[$userId])) {
+//         $userBooks[$userId] = [
+//             'name' => $item['firstName'] . ' ' . $item['lastName'],
+//             'books' => []
+//         ];
+//     }
+//     $userBooks[$userId]['books'][] = [
+//         'bookName' => $item['bookName'],
+//         'coverImagePath' => $item['coverImagePath']
+//     ];
+// }
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET

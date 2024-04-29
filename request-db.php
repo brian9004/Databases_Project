@@ -65,6 +65,36 @@ function getCheckedOutBooksByUser() {
     }
 }
 
+function getUserDetails($userId) {
+    global $db; // Ensure that $db (your PDO database connection) is accessible
+    $query = "SELECT firstName, lastName, email FROM users WHERE userId = :userId";
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error in getUserDetails: " . $e->getMessage());
+        return [];
+    }
+}
+
+function getCheckedOutBooksByUserId($userId) {
+    global $db;
+    $query = "SELECT books.bookId, books.bookName, books.coverImagePath, books.author, books.category
+              FROM books
+              JOIN checkouts ON books.bookId = checkouts.bookId
+              WHERE checkouts.userId = :userId";
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error in getCheckedOutBooksByUserId: " . $e->getMessage());
+        return [];
+    }
+}
 
 
 

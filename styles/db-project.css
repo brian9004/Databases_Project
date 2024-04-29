@@ -1,14 +1,14 @@
 /** ----------------------------------------- Header Styling ----------------------------------------- */
 
 .header {
-  background-color: #092067;
+  background-color: #094067;
   color: white; /* for the text*/
   padding: 10px;
   display: flex;
   align-items: center;
 }
 .header img {
-  height: 40px; /* Your logo height */
+  height: 40px; 
 }
 
 .header .logo .button-with-image {

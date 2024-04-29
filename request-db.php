@@ -70,11 +70,11 @@ function getCheckedOutBooksByUser() {
 
 function getAllUsers() {
     global $db; 
-    $query = "SELECT firstName, lastName, email FROM users"; // Adjust the column names if different
+    $query = "SELECT firstName, lastName, email FROM users"; 
     try {
         $stmt = $db->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(); // Fetches all users
+        return $stmt->fetchAll(); 
     } catch (PDOException $e) {
         die("Error occurred:" . $e->getMessage());
     }
@@ -312,7 +312,7 @@ function removeFavorite($bookId, $userId)
     }
 }
 
-function createRating($bookId, $userId, $oneTimeRating) // check to see if user can checkout book
+function createRating($bookId, $userId, $oneTimeRating)
 {
     global $db;
     $query = "insert into rates (userId, bookId, oneTimeRating) values (:userId, :bookId, :oneTimeRating)";
@@ -339,7 +339,7 @@ function checkoutBook($bookId, $userId, $newCheckoutNum)
     $db->beginTransaction();
     
     try {
-        // Update the numCheckedOut value
+        // inc the numCheckedOut value
         $updateQuery = "update books set numCheckedOut=:numCheckout where bookId=:bookId";
         $updateStatement = $db->prepare($updateQuery);
         $updateStatement->bindValue(':numCheckout', $newCheckoutNum);
@@ -372,7 +372,7 @@ function checkInBook($bookId, $userId, $newCheckoutNum)
     $db->beginTransaction();
     
     try {
-        // Update the numCheckedOut value
+        // update val
         $updateQuery = "update books set numCheckedOut=:numCheckout where bookId=:bookId";
         $updateStatement = $db->prepare($updateQuery);
         $updateStatement->bindValue(':numCheckout', $newCheckoutNum);

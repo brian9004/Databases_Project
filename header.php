@@ -50,6 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
 
+    if (!empty($_POST['addBook']))
+    {
+      $bookName = clean($_POST['bookName']);
+      $author = clean($_POST['author']);
+      $totalQuantity = clean($_POST['totalQuantity']);
+      $coverImagePath = clean($_POST['coverImagePath']);
+      $category = clean($_POST['category']);
+      addBooks($bookName, $author, $totalQuantity, $coverImagePath, $category);
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
     if (!empty($_POST['rating']))
     {
       $rating = intval(clean($_POST['rating']));
@@ -95,6 +106,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 
 }
 
+// function generateAddBookModal() {
+//   $modalHTML = '<div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-hidden="true">
+//   <div class="modal-dialog">
+//     <div class="modal-content">
+//       <div class="modal-header">
+//         <h4 class="modal-title">Add New Book</h4>
+//         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//       </div>
+//       <div class="modal-body">
+//         <form method="POST" action="">
+//           <div class="mb-3">
+//             <input type="text" class="form-control" id="bookName" name="bookName" placeholder="Book Name">
+//           </div>
+//           <div class="mb-3">
+//             <input type="text" class="form-control" id="author" name="author" placeholder="Author">
+//           </div>
+//           <div class="mb-3">
+//             <input type="number" class="form-control" id="totalQuantity" name="totalQuantity" placeholder="Quantity">
+//           </div>
+//           <div class="mb-3">
+//             <input type="text" class="form-control" id="category" name="category" placeholder="Category">
+//           </div>
+//           <div class="mb-3">
+//             <input type="text" class="form-control" id="coverImagePath" name="coverImagePath" placeholder="Cover Image Path">
+//           </div>
+//           <div class="mb-3">
+//             <input type="submit" class="btn btn-primary" name="addBook">Submit</button>
+//           </div>
+//         </form>
+//       </div>
+//       <div class="modal-footer">
+//         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+//       </div>
+//     </div>
+//   </div>
+// </div>';
+//   return $modalHTML;
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -122,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
     <?php
     if(isset($_SESSION["admin"]) && $_SESSION["admin"]): ?>
         <button onclick="window.location.href='admin-dashboard.php'">Dashboard</button>
+        <button id="addBookBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">Add Book</button>
     <?php else: ?>
         <button onclick="window.location.href='dashboard.php'">Dashboard</button>
     <?php endif; ?>
@@ -133,6 +184,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
     </div>
 <?php endif; ?>
 
+  </div>
+</div>
+
+<!-- Add Book Popup -->
+<div id="addBookPopup" class="add-book-popup">
+  <div class="popup-content">
+    <h2>Add New Book</h2>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+      <div class="mb-3">
+        <input type="text" class="form-control" id="bookName" name="bookName" placeholder="Book Name">
+      </div>
+      <div class="mb-3">
+        <input type="text" class="form-control" id="author" name="author" placeholder="Author">
+      </div>
+      <div class="mb-3">
+        <input type="number" class="form-control" id="totalQuantity" name="totalQuantity" placeholder="Quantity">
+      </div>
+      <div class="mb-3">
+        <input type="text" class="form-control" id="category" name="category" placeholder="Category">
+      </div>
+      <div class="mb-3">
+        <input type="text" class="form-control" id="coverImagePath" name="coverImagePath" placeholder="Cover Image Path">
+      </div>
+      <div class="mb-3">
+          <input type="submit" value="Submit" class="btn btn-primary" name="addBook">
+      </div>
+    </form>
+    <button type="button" class="btn btn-secondary" name="closeAddPopup" id="closeAddPopup">Close</button>
   </div>
 </div>
 
@@ -208,38 +287,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
   }
 </script>
 
-<!-- <div id="bookPopup" class="book-popup">
-  <div class="popup-content">
-    <span class="book-close-btn">&times;</span>
-    <h2>Book Information</h2>
-    <table style="width:80%">
-    </table>
-  </div>
-</div> -->
+<script>
+  var addBookBtn = document.getElementById("addBookBtn");
+  var addBookPopup = document.getElementById("addBookPopup");
+  var closeAddBookBtn = document.getElementById("closeAddPopup");
+
+  addBookBtn.onclick = function() {
+    addBookPopup.style.display = "block";
+  }
+
+  closeAddBookBtn.onclick = function() {
+    addBookPopup.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == addBookPopup) {
+      addBookPopup.style.display = "none";
+    }
+  }
+</script>
 
 <!-- <script>
-  // Get the modal
-  var bookPopup = document.getElementById("bookPopup");
-  // Get the button that opens the modal
-  var bookBtn = document.getElementById("11");
-  // Get the <span> element that closes the modal
-  var bookSpan = document.getElementsByClassName("book-close-btn")[0];
-
-  // When the user clicks the button, open the modal 
-  bookBtn.onclick = function() {
-    bookPopup.style.display = "block";
-  }
-
-  // When the user clicks on <span> (x), close the modal
-  bookSpan.onclick = function() {
-    bookPopup.style.display = "none";
-  }
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target == bookPopup) {
-      bookPopup.style.display = "none";
-    }
+  var addBookModal = document.getElementById('addBookModal');
+  var addBookBtn = document.getElementById('addBookBtn');
+  
+  addBookBtn.onclick = function() {
+    addBookModal.style.display = "block";
   }
 </script> -->
 

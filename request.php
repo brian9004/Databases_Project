@@ -23,9 +23,15 @@ function showBookDetails($book) {
     $html .= "<div class='modal-footer'>";
     if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true && doesRatingExist($book['bookId'], clean($_SESSION['user_id'])) === false) {
         $html .= "<form method='POST' action=''>";
+        $html .= "<div class='row g-3 align-items-center'>";
+        $html .= "<div class='col-auto'>";
         $html .= "<input type='hidden' name='bookId' value='{$book['bookId']}'>";
         $html .= "<input type='text' name='rating' placeholder='Enter rating (integer 1-10)'>";
+        $html .= "</div>";
+        $html .= "<div class='col-auto'>";
         $html .= "<button type='submit' class='btn btn-primary'>Submit</button>";
+        $html .= "</div>";
+        $html .= "</div>";
         $html .= "</form>";
     }
     if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {

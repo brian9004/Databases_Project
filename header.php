@@ -5,7 +5,7 @@ require("request-db.php");
 
 <?php // form handling
 
-function clean($data) {  // Trims, unquotes strings, and converts predefined characters to HTML entities
+function clean($data) {  
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -65,6 +65,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
         $rateMessage = 2;
       }
       
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
+    if (!empty($_POST['favoriteBook']))
+    {
+      $userId = intval(clean($_SESSION["user_id"]));
+      $bookId = intval(clean($_POST['favoriteBook']));
+      createFavorite($bookId, $userId);
+      $favorited = true;
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
+    if (!empty($_POST['unfavoriteBook']))
+    {
+      $userId = intval(clean($_SESSION["user_id"]));
+      $bookId = intval(clean($_POST['unfavoriteBook']));
+      removeFavorite($bookId, $userId);
+      $unfavorited = true;
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
 
@@ -213,61 +231,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 <script>
   // Get the modal
   var searchPopup = document.getElementById("searchPopup");
-  // Get the button that opens the modal
   var searchBtn = document.getElementById("filter");
-  // Get the <span> element that closes the modal
   var searchSpan = document.getElementsByClassName("search-close-btn")[0];
 
-  // When the user clicks the button, open the modal 
+  // open the modal 
   searchBtn.onclick = function() {
     searchPopup.style.display = "block";
   }
-  // When the user clicks on <span> (x), close the modal
+  // close the modal
   searchSpan.onclick = function() {
     searchPopup.style.display = "none";
   }
-  // When the user clicks anywhere outside of the modal, close it
+  // when the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
     if (event.target == searchPopup) {
       searchPopup.style.display = "none";
     }
   }
 </script>
-
-<!-- <div id="bookPopup" class="book-popup">
-  <div class="popup-content">
-    <span class="book-close-btn">&times;</span>
-    <h2>Book Information</h2>
-    <table style="width:80%">
-    </table>
-  </div>
-</div> -->
-
-<!-- <script>
-  // Get the modal
-  var bookPopup = document.getElementById("bookPopup");
-  // Get the button that opens the modal
-  var bookBtn = document.getElementById("11");
-  // Get the <span> element that closes the modal
-  var bookSpan = document.getElementsByClassName("book-close-btn")[0];
-
-  // When the user clicks the button, open the modal 
-  bookBtn.onclick = function() {
-    bookPopup.style.display = "block";
-  }
-
-  // When the user clicks on <span> (x), close the modal
-  bookSpan.onclick = function() {
-    bookPopup.style.display = "none";
-  }
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target == bookPopup) {
-      bookPopup.style.display = "none";
-    }
-  }
-</script> -->
 
 </body>
 </html>    

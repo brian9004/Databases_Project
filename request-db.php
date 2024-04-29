@@ -1,28 +1,20 @@
 <?php
-function addBooks($bookName, $author, $totalQuantity, $numCheckedOut, $coverImagePath, $rating, $category, $issued)
+function addBooks($bookName, $author, $totalQuantity, $coverImagePath, $category)
 {
     global $db;
-    $query = "INSERT INTO books (bookName, author, totalQuantity, numCheckedOut, coverImagePath, rating, category, issued) VALUES (:bookName, :author, :totalQuantity, :numCheckedOut, :coverImagePath, :rating, :category, :issued)";
-
+    $query = "INSERT INTO books (bookName, author, totalQuantity, numCheckedOut, coverImagePath, rating, category, issued) VALUES (:bookName, :author, :totalQuantity, 0, :coverImagePath, 0, :category, CURDATE())";
     try {
         $statement = $db->prepare($query);
-
         $statement->bindValue(':bookName', $bookName);
         $statement->bindValue(':author', $author);
         $statement->bindValue(':totalQuantity', $totalQuantity);
-        $statement->bindValue(':numCheckedOut', $numCheckedOut);
         $statement->bindValue(':coverImagePath', $coverImagePath);
-        $statement->bindValue(':rating', $rating);
         $statement->bindValue(':category', $category);
-        $statement->bindValue(':issued', $issued);
-
         $statement->execute();
         $statement->closeCursor();
-
-    } catch (PDOException $e) {
-        $e->getMessage();
-    } catch (Exception $e) {
-        $e->getMessage();   
+    }
+    catch (PDOException $e) {
+        var_dump($e->getMessage());
     }
 }
 

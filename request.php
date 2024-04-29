@@ -17,9 +17,17 @@ function showBookDetails($book) {
     $html .= "<div class='ms-5'>";
     $html .= "<p><strong>Author:</strong> " . htmlspecialchars($book['author']) . "</p>";
     $html .= "<p><strong>Category:</strong> " . htmlspecialchars($book['category']) . "</p>";
+    $html .= "<p><strong>Rating:</strong> " . htmlspecialchars(getRating($book['bookId'])) . "</p>";
     $html .= "</div>";
     $html .= "</div>"; // end modal-body
     $html .= "<div class='modal-footer'>";
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true && doesRatingExist($book['bookId'], clean($_SESSION['user_id'])) === false) {
+        $html .= "<form method='POST' action=''>";
+        $html .= "<input type='hidden' name='bookId' value='{$book['bookId']}'>";
+        $html .= "<input type='text' name='rating' placeholder='Enter rating (integer 1-10)'>";
+        $html .= "<button type='submit' class='btn btn-primary'>Submit</button>";
+        $html .= "</form>";
+    }
     if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
         $html .= "<form method='POST' action=''>";
         $html .= "<input type='hidden' name='checkoutBookId' value='{$book['bookId']}'>";    
@@ -65,6 +73,18 @@ function showBookDetails($book) {
                 alert('The book has been checked out successfully. Thank you.');
             </script>
         <?php endif; ?>
+    <?php endif; ?>
+
+    <?php if ($rateMessage): ?>
+        <?php if ($rateMessage == 2): ?>
+            <script>
+                alert('Your rating was not an integer between 1 and 10. Try again.');
+            </script>
+        <?php elseif ($rateMessage == 1): ?>
+            <script>
+                alert('You successfully rated this book.');
+            </script>
+            <?php endif; ?>
     <?php endif; ?>
 
     <div class="row">

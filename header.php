@@ -48,6 +48,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
 
+    if (!empty($_POST['rating']))
+    {
+      $rating = intval(clean($_POST['rating']));
+      if ($rating >= 1 && $rating <= 10) {
+        createRating(intval(clean($_POST['bookId'])), clean($_SESSION['user_id']), $rating);
+        $rateMessage = 1;
+      } 
+      else {
+        $rateMessage = 2;
+      }
+      
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
     if (!empty($_POST['checkoutBookId']))
     {
       $bookId = clean($_POST['checkoutBookId']);

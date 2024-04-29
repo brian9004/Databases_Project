@@ -208,6 +208,66 @@ function validateAmountCheckedOut($bookId) // check to see if user can checkout 
     }
 }
 
+function doesRatingExist($bookId, $userId)
+{
+    global $db;
+    $query = "select COUNT(*) from rates where bookId=:bookId and userId=:userId";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+
+    try {
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        if ($results[0][0] == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+function getRating($bookId)
+{
+    global $db;
+    $query = "select AVG(oneTimeRating) from rates where bookId=:bookId";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+
+    try {
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        if ($results[0][0] == NULL) { return 0; }
+        return $results[0][0];
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+function createRating($bookId, $userId, $oneTimeRating) // check to see if user can checkout book
+{
+    global $db;
+    $query = "insert into rates (userId, bookId, oneTimeRating) values (:userId, :bookId, :oneTimeRating)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+    $statement->bindValue(':oneTimeRating', $oneTimeRating);
+
+    try {
+        $statement->execute();
+        $statement->closeCursor();
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+
+
 function checkoutBook($bookId, $userId, $newCheckoutNum)
 {
     global $db;

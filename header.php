@@ -24,8 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 
     if (!empty($_POST['deleteBookId']))
     {
-      $bookId = clean($_POST['deleteBookId']);
-      deleteBook(intval($bookId));
+      $bookId = intval(clean($_POST['deleteBookId']));
+      $userId = clean($_SESSION['user_id']);
+      deleteBook($userId, $bookId);
+      deleteUpdateLog($userId, $bookId);
       $bookDeleted = true;
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
@@ -58,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       }
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
+
 }
 
 ?>

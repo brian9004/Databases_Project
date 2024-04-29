@@ -13,7 +13,25 @@ function clean($data) {  // Trims, unquotes strings, and converts predefined cha
 }
 
 $books = getAllBooks(); // Fetch all books
-$bookDeleted = false;
+// $checkouts = getCheckedOutBooks();
+$users = getAllUsers();
+
+$checkouts = getCheckedOutBooksByUser();
+$userBooks = [];
+foreach ($checkouts as $item) {
+    $userId = $item['userId'];
+    if (!isset($userBooks[$userId])) {
+        $userBooks[$userId] = [
+            'name' => $item['firstName'] . ' ' . $item['lastName'],
+            'books' => []
+        ];
+    }
+    $userBooks[$userId]['books'][] = [
+        'bookName' => $item['bookName'],
+        'coverImagePath' => $item['coverImagePath']
+    ];
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
 {

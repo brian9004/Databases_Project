@@ -64,6 +64,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') // GET
       header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
     }
 
+    if (!empty($_POST['favoriteBook']))
+    {
+      $userId = intval(clean($_SESSION["user_id"]));
+      $bookId = intval(clean($_POST['favoriteBook']));
+      createFavorite($bookId, $userId);
+      $favorited = true;
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
+    if (!empty($_POST['unfavoriteBook']))
+    {
+      $userId = intval(clean($_SESSION["user_id"]));
+      $bookId = intval(clean($_POST['unfavoriteBook']));
+      removeFavorite($bookId, $userId);
+      $unfavorited = true;
+      header("Refresh: 0"); // Refresh page immediately to update the list and show the alert
+    }
+
     if (!empty($_POST['checkInBook']))
     {
       $userId = intval(clean($_POST['checkInBook']));

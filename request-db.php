@@ -260,6 +260,58 @@ function getRating($bookId)
     }
 }
 
+function isFavorited($bookId, $userId)
+{
+    global $db;
+    $query = "select COUNT(*) from favorites where bookId=:bookId and userId=:userId";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+
+    try {
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        if ($results[0][0] == 0) { return false; }
+        return true;
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+function createFavorite($bookId, $userId)
+{
+    global $db;
+    $query = "insert into favorites (userId, bookId) values (:userId, :bookId)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+    sleep(5);
+    echo 'died';
+    try {
+        $statement->execute();
+        $statement->closeCursor();
+        
+    } catch (PDOException $e) {
+    }
+}
+
+function removeFavorite($bookId, $userId)
+{
+    global $db;
+    $query = "delete from favorites where bookId=:bookId and userId=:userId";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bookId', $bookId);
+    $statement->bindValue(':userId', $userId);
+
+    try {
+        $statement->execute();
+        $statement->closeCursor();
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
 function createRating($bookId, $userId, $oneTimeRating) // check to see if user can checkout book
 {
     global $db;

@@ -21,23 +21,35 @@ function showBookDetails($book) {
     $html .= "</div>";
     $html .= "</div>"; // end modal-body
     $html .= "<div class='modal-footer'>";
-    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true && doesRatingExist($book['bookId'], clean($_SESSION['user_id'])) === false) {
-        $html .= "<form method='POST' action=''>";
-        $html .= "<input type='hidden' name='bookId' value='{$book['bookId']}'>";
-        $html .= "<input type='text' name='rating' placeholder='Enter rating (integer 1-10)'>";
-        $html .= "<button type='submit' class='btn btn-primary'>Submit</button>";
-        $html .= "</form>";
-    }
     if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
         $html .= "<form method='POST' action=''>";
         $html .= "<input type='hidden' name='checkoutBookId' value='{$book['bookId']}'>";    
         $html .= "<button type='submit' class='btn btn-success'>Checkout Book</button>";
         $html .= "</form>";
     }
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true && !isFavorited($book['bookId'], $_SESSION['user_id'])) {
+        $html .= "<form method='POST' action=''>"; 
+        $html .= "<input type='hidden' name='favoriteBook' value='{$book['bookId']}'>";    
+        $html .= "<button type='submit' class='btn btn-info'>Favorite Book</button>";
+        $html .= "</form>";
+    }
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true && isFavorited($book['bookId'], $_SESSION['user_id'])) {
+        $html .= "<form method='POST' action=''>";
+        $html .= "<input type='hidden' name='unfavoriteBook' value='{$book['bookId']}'>";    
+        $html .= "<button type='submit' class='btn btn-warning'>Un-Favorite Book</button>";
+        $html .= "</form>";
+    }
     if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
         $html .= "<form method='POST' action=''>";
         $html .= "<input type='hidden' name='deleteBookId' value='{$book['bookId']}'>";    
         $html .= "<button type='submit' class='btn btn-danger'>Delete Book</button>";
+        $html .= "</form>";
+    }
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true && doesRatingExist($book['bookId'], clean($_SESSION['user_id'])) === false) {
+        $html .= "<form method='POST' action=''>";
+        $html .= "<input type='hidden' name='bookId' value='{$book['bookId']}'>";
+        $html .= "<input type='text' name='rating' placeholder='Enter rating (integer 1-10)'>";
+        $html .= "<button type='submit' class='btn btn-primary'>Submit</button>";
         $html .= "</form>";
     }
     $html .= "<button type='button' onclick='closeModal(\"modal{$book['bookId']}\")' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>";
@@ -85,6 +97,20 @@ function showBookDetails($book) {
                 alert('You successfully rated this book.');
             </script>
             <?php endif; ?>
+    <?php endif; ?>
+
+    <?php if ($favorited): ?>
+        <?php $favorited = false; ?>
+        <script>
+            alert('The book has been favorited!');
+        </script>
+    <?php endif; ?>
+
+    <?php if ($unfavorited): ?>
+        <?php $unfavorited = false; ?>
+        <script>
+            alert('The book has been unfavorited!');
+        </script>
     <?php endif; ?>
 
     <div class="row">

@@ -20,10 +20,12 @@ function showBookDetails($book) {
     $html .= "</div>";
     $html .= "</div>"; // end modal-body
     $html .= "<div class='modal-footer'>";
-    $html .= "<form method='POST' action=''>";
-    $html .= "<input type='hidden' name='checkoutBookId' value='{$book['bookId']}'>";    
-    $html .= "<button type='submit' class='btn btn-success'>Checkout Book</button>";
-    $html .= "</form>";
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
+        $html .= "<form method='POST' action=''>";
+        $html .= "<input type='hidden' name='checkoutBookId' value='{$book['bookId']}'>";    
+        $html .= "<button type='submit' class='btn btn-success'>Checkout Book</button>";
+        $html .= "</form>";
+    }
     if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
         $html .= "<form method='POST' action=''>";
         $html .= "<input type='hidden' name='deleteBookId' value='{$book['bookId']}'>";    

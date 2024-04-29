@@ -38,6 +38,48 @@ function getAllBooks()
     return $result;
 }
 
+function getCheckedOutBooks() {
+    global $db;
+    $query = "select b.*, c.userId, c.checkoutDate from books b
+              inner join checkouts c on b.bookId = c.bookId";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    $statement->closeCursor();
+    return $result;
+}
+
+function getCheckedOutBooksByUser() {
+    global $db;
+    $query = "SELECT u.firstName, u.lastName, u.userId, b.bookId, b.bookName, b.coverImagePath
+              FROM users u
+              JOIN checkouts co ON u.userId = co.userId
+              JOIN books b ON co.bookId = b.bookId
+              ORDER BY u.userId, co.checkoutDate DESC";  // Adjust for the column name in your books table
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
+
+
+
+function getAllUsers() {
+    global $db; 
+    $query = "SELECT firstName, lastName, email FROM users"; // Adjust the column names if different
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(); // Fetches all users
+    } catch (PDOException $e) {
+        die("Error occurred:" . $e->getMessage());
+    }
+}
+
 function getBookById($id)  
 {
     global $db;

@@ -286,8 +286,6 @@ function createFavorite($bookId, $userId)
     $statement = $db->prepare($query);
     $statement->bindValue(':bookId', $bookId);
     $statement->bindValue(':userId', $userId);
-    sleep(5);
-    echo 'died';
     try {
         $statement->execute();
         $statement->closeCursor();

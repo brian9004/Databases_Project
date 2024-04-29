@@ -1,3 +1,5 @@
+<!-- this page is for admin only dashboard, functionality has been implemented to check properly and only show to admins -->
+
 <?php
 session_start();
 require 'connect-db.php';
@@ -5,6 +7,10 @@ require 'connect-db.php';
 // Check if the user is logged in, if not then redirect to login page
 if (!isset($_SESSION["user_logged_in"]) || $_SESSION["user_logged_in"] !== true) {
     header("location: login.php");
+    exit;
+}
+if($_SESSION["admin"] !== true){ //checks if user is an admin, if not then sends them to home page.
+    header("location: request.php");
     exit;
 }
 
@@ -24,9 +30,9 @@ require 'header.php';
   <div class="container">
     <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_email']); ?>!</h1>
 
-    <p>This is your dashboard. You can manage your profile, check your activities, or start using the services.</p>
+    <p>ADMIN DASHBOARD</p>
     
-    <h2>If you have reached this page you have successfully logged in or signed up </h2>
+    
 
 
   </div>

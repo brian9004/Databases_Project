@@ -4,7 +4,7 @@ require("header.php");
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="body-signup">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +15,7 @@ require("header.php");
 
 <body>
 
+<div class = error-message-signup>
 <?php
 // Display an error message if signup fails
 if (isset($_GET['error'])) {
@@ -22,29 +23,32 @@ if (isset($_GET['error'])) {
     echo "<p style='color:red;'>$errorMessage</p>";
 }
 ?>
+</div>
 
-<form action="register.php" method="post">
+<div class="form-container-signup">
+  <form action="register.php" method="post" class="form-signup">
     <h2>Sign Up</h2>
-    <div class="login-container">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
+    <div class="field-container-signup">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required>
     </div>
-    <div class="login-container">
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
+    <div class="field-container-signup">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required>
     </div>
-    <div class="login-container">
-        <label for="firstName">First Name:</label>
-        <input type="text" name="firstName" id="firstName" required>
+    <div class="field-container-signup">
+      <label for="firstName">First Name:</label>
+      <input type="text" name="firstName" id="firstName" required>
     </div>
-    <div class="login-container">
-        <label for="lastName">Last Name:</label>
-        <input type="text" name="lastName" id="lastName" required>
+    <div class="field-container-signup">
+      <label for="lastName">Last Name:</label>
+      <input type="text" name="lastName" id="lastName" required>
     </div>
-    <div class="login-button">
-        <input type="submit" value="Sign Up">
+    <div class="button-submit-signup">
+      <input type="submit" value="Sign Up">
     </div>
-</form>
+  </form>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
